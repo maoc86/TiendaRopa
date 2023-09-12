@@ -3,5 +3,16 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "workbench.editorAssociations": {   
         "*.md": "vscode.markdown.preview.editor"
-    }
+    },
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "example",
+            "database": "example",
+            "username": "gitpod"
+        }
+    ]
 }
