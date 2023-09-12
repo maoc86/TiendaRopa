@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User
+from models import db, User, Producto
 #from models import Person
 
 app = Flask(__name__)
@@ -44,6 +44,47 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+@app.route('/users', methods=['GET'])
+@app.route('/users/<int:user_id>', methods=['GET'])
+def handle_users(user_id=None):
+    if user_id is None:
+        users = User.query.all()
+        return jsonify([x.serialize() for x in users]), 200
+
+    user = User.query.filter_by(id=user_id).first()
+    if user is not None:
+        return jsonify(user.serialize()), 200
+
+    return jsonify({"msg": "Request not valid"}), 400
+
+  
+@app.route('/producto', methods=['GET', 'POST'])
+def handle_producto():
+
+    if request.method == 'POST':
+        body = request.get_json()
+        product = Producto(
+            nombre=body['nombre'], 
+            descripcion= body['descripcion'],
+            talla=body['talla'],
+            precio=body['precio']
+        )
+        
+        db.session.add(product)
+        db.session.commit()
+        response_body = {
+        "msg": "Producto agregado correctamente!"
+        }
+        return jsonify(response_body), 200
+
+    if request.method == 'GET':
+        all_producto = Producto.query.all()
+        all_producto =list(map(lambda x: x.serialize(), all_producto))
+        response_body = all_producto
+        return jsonify(response_body), 200
+
+
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
