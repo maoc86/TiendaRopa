@@ -64,14 +64,14 @@ def handle_producto():
 
     if request.method == 'POST':
         body = request.get_json()
-        product = Producto(
+        producto = Producto(
             nombre=body['nombre'], 
             descripcion= body['descripcion'],
             talla=body['talla'],
             precio=body['precio']
         )
         
-        db.session.add(product)
+        db.session.add(producto)
         db.session.commit()
         response_body = {
         "msg": "Producto agregado correctamente!"
@@ -83,6 +83,21 @@ def handle_producto():
         all_producto =list(map(lambda x: x.serialize(), all_producto))
         response_body = all_producto
         return jsonify(response_body), 200
+
+@app.route('/producto/<int:producto_id>', methods=['GET'])
+def get_producto(producto_id):
+    producto_query = Producto.query.get(producto_id)
+    
+    if not producto_query:
+        response_body = {
+            "msg": "producto no existe."
+        }
+        return jsonify(response_body), 200
+
+    data_producto = producto_query.serialize()
+    return jsonify({
+        "result": data_producto
+    }), 200
 
 
 

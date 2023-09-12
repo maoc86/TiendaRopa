@@ -45,10 +45,10 @@ class Cliente(db.Model):
 class Producto(db.Model):
     __tablename__ = "producto"
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(120), unique=True, nullable=False)
-    descripcion = db.Column(db.String(120), unique=True, nullable=False)
-    talla = db.Column(db.String(80), unique=True, nullable=False)
-    precio = db.Column(db.Integer, unique=True, nullable=False)
+    nombre = db.Column(db.String(120), unique=False, nullable=False)
+    descripcion = db.Column(db.String(120), unique=False, nullable=False)
+    talla = db.Column(db.String(80), unique=False, nullable=False)
+    precio = db.Column(db.Integer, unique=False, nullable=False)
         
     def serialize(self):
         return {
