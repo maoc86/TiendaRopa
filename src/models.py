@@ -58,3 +58,12 @@ class Producto(db.Model):
             "talla": self.talla,
             "precio": self.precio
             }
+
+    def get_content(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "descripcion": self.descripcion,
+            "talla": self.talla,
+            "precio": self.precio
+            }

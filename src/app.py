@@ -112,6 +112,25 @@ def delete_producto(producto_id):
         except Exception as err:
             return 'Ha ocurrido un error', 500
 
+@app.route('/producto/<int:producto_id>', methods=['PUT'])
+def update_producto(producto_id):
+    body = request.json
+    if "descripcion" not in body:
+        return "Este producto no tiene descripcion", 400
+    if "talla" not in body:
+        return "Este producto no tiene talla", 400
+    else:
+        producto = Producto.query.filter_by(id=producto_id).one_or_none()
+        if producto == None:
+            return "No existe el producto", 400            
+        try:
+            producto.descripcion = body['descripcion']
+            producto.tall = body['talla']
+            db.session.commit() 
+            return jsonify(producto.get_content()), 201
+        except Exception as err:
+            return jsonify({ "error": "Ha ocurrido un error de servidor"}), 500
+
 
 
 # this only runs if `$ python src/app.py` is executed
