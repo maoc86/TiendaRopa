@@ -99,6 +99,19 @@ def get_producto(producto_id):
         "result": data_producto
     }), 200
 
+@app.route('/producto/<int:producto_id>', methods=['DELETE'])
+def delete_producto(producto_id):
+    producto = Producto.query.filter_by(id=producto_id).one_or_none()
+    if producto == None:
+        return 'No existe el Producto', 404
+    else:
+        try:
+            db.session.delete(producto)
+            db.session.commit()
+            return "Se ha borrado el Producto sastifastoriamente", 200
+        except Exception as err:
+            return 'Ha ocurrido un error', 500
+
 
 
 # this only runs if `$ python src/app.py` is executed
