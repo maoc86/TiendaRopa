@@ -69,7 +69,7 @@ def handle_producto():
             descripcion= body['descripcion'],
             talla=body['talla'],
             precio=body['precio']
-        )
+            )
         
         db.session.add(producto)
         db.session.commit()
